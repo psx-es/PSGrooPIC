@@ -6,7 +6,11 @@ CCS_FLAGS_DEV	= +GDEV_PAYLOAD="true"
 ZIP				= zip
 CLEAN_FILES		= *.err *.esym *.hex *.zip
 
-GITHEAD = $(shell cd PL3 && git rev-parse HEAD && cd ..)
+DEFAULT_PAYLOAD	= default_payload
+DEV_PAYLOAD		= payload_dev
+PAYLOAD_DIR		= PL3
+
+GITHEAD = $(shell cd $(PAYLOAD_DIR) && git rev-parse HEAD && cd ..)
 
 B2HTARGET = $(CURDIR)/tools/bin2header
 
@@ -15,7 +19,13 @@ all:
 		$(MAKE) -C tools
 
 		#Make PL3.
-		$(MAKE) -C PL3
+		$(MAKE) -C $(PAYLOAD_DIR)
+
+		#Make custom Payload.
+		$(B2HTARGET) $(PAYLOAD_DIR)/$(DEFAULT_PAYLOAD)_3_01.bin $(PAYLOAD_DIR)/$(DEFAULT_PAYLOAD)_pic_3_01.h $(DEFAULT_PAYLOAD)_3_01
+		$(B2HTARGET) $(PAYLOAD_DIR)/$(DEFAULT_PAYLOAD)_3_10.bin $(PAYLOAD_DIR)/$(DEFAULT_PAYLOAD)_pic_3_10.h $(DEFAULT_PAYLOAD)_3_10
+		$(B2HTARGET) $(PAYLOAD_DIR)/$(DEFAULT_PAYLOAD)_3_15.bin $(PAYLOAD_DIR)/$(DEFAULT_PAYLOAD)_pic_3_15.h $(DEFAULT_PAYLOAD)_3_15
+		$(B2HTARGET) $(PAYLOAD_DIR)/$(DEFAULT_PAYLOAD)_3_41.bin $(PAYLOAD_DIR)/$(DEFAULT_PAYLOAD)_pic_3_41.h $(DEFAULT_PAYLOAD)_3_41
 
 		#HEX with bootloader.
 		$(CCS_COMPILER) $(CCS_FLAGS_WBL) +GFW301="true" $(CCS_SOURCE)
@@ -37,7 +47,13 @@ dev:
 		$(MAKE) -C tools
 
 		#Make PL3.
-		$(MAKE) -C PL3
+		$(MAKE) -C $(PAYLOAD_DIR)
+
+		#Make custom Payload.
+		$(B2HTARGET) $(PAYLOAD_DIR)/$(DEV_PAYLOAD)_3_01.bin $(PAYLOAD_DIR)/$(DEV_PAYLOAD)_pic_3_01.h $(DEV_PAYLOAD)_3_01
+		$(B2HTARGET) $(PAYLOAD_DIR)/$(DEV_PAYLOAD)_3_10.bin $(PAYLOAD_DIR)/$(DEV_PAYLOAD)_pic_3_10.h $(DEV_PAYLOAD)_3_10
+		$(B2HTARGET) $(PAYLOAD_DIR)/$(DEV_PAYLOAD)_3_15.bin $(PAYLOAD_DIR)/$(DEV_PAYLOAD)_pic_3_15.h $(DEV_PAYLOAD)_3_15
+		$(B2HTARGET) $(PAYLOAD_DIR)/$(DEV_PAYLOAD)_3_41.bin $(PAYLOAD_DIR)/$(DEV_PAYLOAD)_pic_3_41.h $(DEV_PAYLOAD)_3_41
 
 		#HEX with bootloader.
 		$(CCS_COMPILER) $(CCS_FLAGS_WBL) $(CCS_FLAGS_DEV) +GFW301="true" $(CCS_SOURCE)

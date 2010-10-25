@@ -67,7 +67,6 @@ int main(int argc, char **argv)
 	int sizeCurrent = 0;
 
 	// print the macro version
-	fprintf(fo, macro_footer);
 	fprintf(fo, macro_header_pic, argv[3], j);
 
 	while ((r = fread(buf, 1, sizeof(buf), fi)) > 0) {
