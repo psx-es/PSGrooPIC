@@ -14,20 +14,6 @@
 #endif
 /////////////////////////
 
-#define LEDV PIN_B5
-#define LEDR PIN_B4
-/*
-#define LEDV PIN_B4
-#define LEDR PIN_B5
-*/
-/*
-#define LED1 PIN_B1
-#define LED2 PIN_B4
-#define LED3 PIN_B5
-#define LED4 PIN_C0
-#define LED5 PIN_C1
-*/
-
 #define USB_MAX_NUM_INTERFACES 1
 
 #define USB_HID_DEVICE     FALSE
@@ -284,14 +270,13 @@ int16 GetHubLength() {
 
 void OnDongleOK() {
 	BlinkMode = 1;
-	output_high(LEDV);
 	output_high(LEDR);
-	//output_low(LEDR);
+	output_high(LEDG);
 }
 
 void main() {
 	output_high(LEDR);
-	output_low(LEDV);
+	output_low(LEDG);
    
 	usb_init();
    
