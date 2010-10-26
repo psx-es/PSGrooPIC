@@ -1,7 +1,5 @@
 *.hex
 *.exe
-pic18_usb.c
-pic18_usb.h
-usb.c
-usb.h
-usb_hw_layer.h
+*.zip
+*.err
+*.esym
