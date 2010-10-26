@@ -53,7 +53,7 @@
 #define SHELLCODE_PTR			SHELLCODE_ADDR + 0x08
 #define SHELLCODE_ADDRESS		SHELLCODE_ADDR + 0x18
 
-#define PAYLOAD_INCLUDE(payload, firmware) <PL3/payload##_##firmware_pic.h>
+#define PAYLOAD_INCLUDE(payload, firmware) <PL3/payload##_pic_##firmware.h>
 #include PAYLOAD_INCLUDE(PAYLOAD, FIRMWARE)
 
 const unsigned int8 USB_DEVICE_DESC[] = {
