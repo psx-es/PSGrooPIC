@@ -6,6 +6,8 @@
 	#define PAYLOAD		payload_dev
 #elif defined (DEF_PL)
 	#define PAYLOAD		default_payload
+#elif defined (NUS_PL)
+	#define PAYLOAD		payload_no_unauth_syscall
 #endif
 
 #if defined (FW301)
@@ -14,12 +16,16 @@
 			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.01_wBTL.hex)
 		#elif defined (DEV_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.01_wBTL.hex)
+		#elif defined (NUS_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.01_wBTL.hex)
 		#endif
 	#else
 		#if defined (DEF_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.01_nBTL.hex)
 		#elif defined (DEV_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.01_nBTL.hex)
+					#elif defined (NUS_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.01_nBTL.hex)
 		#endif
 	#endif
 	#define RTOC_TABLE      0x80,0x00,0x00,0x00,0x00,0x32,0x06,0x40
@@ -31,12 +37,16 @@
 			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.10_wBTL.hex)
 		#elif defined (DEV_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.10_wBTL.hex)
+		#elif defined (NUS_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.10_wBTL.hex)
 		#endif
 	#else
 		#if defined (DEF_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.10_nBTL.hex)
 		#elif defined (DEV_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.10_nBTL.hex)
+		#elif defined (NUS_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.10_nBTL.hex)
 		#endif
 	#endif
 	#define RTOC_TABLE      0x80,0x00,0x00,0x00,0x00,0x33,0xDA,0x10
@@ -48,12 +58,16 @@
 			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.15_wBTL.hex)
 		#elif defined (DEV_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.15_wBTL.hex)
+		#elif defined (NUS_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.15_wBTL.hex)
 		#endif
 	#else
 		#if defined (DEF_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.15_nBTL.hex)
 		#elif defined (DEV_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.15_nBTL.hex)
+		#elif defined (NUS_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.15_nBTL.hex)
 		#endif
 	#endif
 	#define RTOC_TABLE      0x80,0x00,0x00,0x00,0x00,0x33,0xDA,0x10
@@ -65,12 +79,16 @@
 			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.41_wBTL.hex)
 		#elif defined (DEV_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.41_wBTL.hex)
+		#elif defined (NUS_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.41_wBTL.hex)
 		#endif
 	#else
 		#if defined (DEF_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.41_nBTL.hex)
 		#elif defined (DEV_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.41_nBTL.hex)
+		#elif defined (NUS_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.41_nBTL.hex)
 		#endif
 	#endif
 	#define RTOC_TABLE      0x80,0x00,0x00,0x00,0x00,0x33,0xE7,0x20
@@ -136,6 +154,18 @@ const unsigned int8 USB_CONFIG_DESC[] = {
 				payload_dev_3_15_macro_pic_1, payload_dev_3_15_macro_pic_2, payload_dev_3_15_macro_pic_3,
 			#elif defined (FW341)
 				payload_dev_3_41_macro_pic_1, payload_dev_3_41_macro_pic_2, payload_dev_3_41_macro_pic_3,
+			#else
+				#error Firmware not defined
+			#endif
+		#elif defined (NUS_PL)
+			#if defined (FW301)
+				payload_no_unauth_syscall_3_01_macro_pic_1, payload_no_unauth_syscall_3_01_macro_pic_2, payload_no_unauth_syscall_3_01_macro_pic_3,
+			#elif defined (FW310)
+				payload_no_unauth_syscall_3_10_macro_pic_1, payload_no_unauth_syscall_3_10_macro_pic_2, payload_no_unauth_syscall_3_10_macro_pic_3,
+			#elif defined (FW315)
+				payload_no_unauth_syscall_3_15_macro_pic_1, payload_no_unauth_syscall_3_15_macro_pic_2, payload_no_unauth_syscall_3_15_macro_pic_3,
+			#elif defined (FW341)
+				payload_no_unauth_syscall_3_41_macro_pic_1, payload_no_unauth_syscall_3_41_macro_pic_2, payload_no_unauth_syscall_3_41_macro_pic_3,
 			#else
 				#error Firmware not defined
 			#endif
