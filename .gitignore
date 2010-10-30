@@ -3,3 +3,5 @@
 *.zip
 *.err
 *.esym
+*.cod
+*.sym

@@ -24,7 +24,7 @@
 			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.01_nBTL.hex)
 		#elif defined (DEV_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.01_nBTL.hex)
-					#elif defined (NUS_PL)
+		#elif defined (NUS_PL)
 			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.01_nBTL.hex)
 		#endif
 	#endif
@@ -73,6 +73,27 @@
 	#define RTOC_TABLE      0x80,0x00,0x00,0x00,0x00,0x33,0xDA,0x10
 	#define SHELLCODE_ADDR  0x80,0x00,0x00,0x00,0x00,0x3D,0xDE,0x30
 	#define FIRMWARE 3_15
+#elif defined (FW321)
+	#if defined (WBOOTLOADER)
+		#if defined (DEF_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.21_wBTL.hex)
+		#elif defined (DEV_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.21_wBTL.hex)
+		#elif defined (NUS_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.21_wBTL.hex)
+		#endif
+	#else
+		#if defined (DEF_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_DEF_FW3.21_nBTL.hex)
+		#elif defined (DEV_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_DEV_FW3.21_nBTL.hex)
+		#elif defined (NUS_PL)
+			#export (HEX, FILE=PSGrooPIC_PL3_NUS_FW3.21_nBTL.hex)
+		#endif
+	#endif
+	#define RTOC_TABLE      0x80,0x00,0x00,0x00,0x00,0x33,0xDA,0x90
+	#define SHELLCODE_ADDR  0x80,0x00,0x00,0x00,0x00,0x3D,0xDE,0x30
+	#define FIRMWARE 3_21
 #elif defined (FW341)
 	#if defined (WBOOTLOADER)
 		#if defined (DEF_PL)
@@ -140,6 +161,8 @@ const unsigned int8 USB_CONFIG_DESC[] = {
 				default_payload_3_10_macro_pic_1, default_payload_3_10_macro_pic_2, default_payload_3_10_macro_pic_3,
 			#elif defined (FW315)
 				default_payload_3_15_macro_pic_1, default_payload_3_15_macro_pic_2, default_payload_3_15_macro_pic_3,
+			#elif defined (FW321)
+				default_payload_3_21_macro_pic_1, default_payload_3_21_macro_pic_2, default_payload_3_21_macro_pic_3,
 			#elif defined (FW341)
 				default_payload_3_41_macro_pic_1, default_payload_3_41_macro_pic_2, default_payload_3_41_macro_pic_3,
 			#else
@@ -152,6 +175,8 @@ const unsigned int8 USB_CONFIG_DESC[] = {
 				payload_dev_3_10_macro_pic_1, payload_dev_3_10_macro_pic_2, payload_dev_3_10_macro_pic_3,
 			#elif defined (FW315)
 				payload_dev_3_15_macro_pic_1, payload_dev_3_15_macro_pic_2, payload_dev_3_15_macro_pic_3,
+			#elif defined (FW321)
+				payload_dev_3_21_macro_pic_1, payload_dev_3_21_macro_pic_2, payload_dev_3_21_macro_pic_3,
 			#elif defined (FW341)
 				payload_dev_3_41_macro_pic_1, payload_dev_3_41_macro_pic_2, payload_dev_3_41_macro_pic_3,
 			#else
@@ -164,6 +189,8 @@ const unsigned int8 USB_CONFIG_DESC[] = {
 				payload_no_unauth_syscall_3_10_macro_pic_1, payload_no_unauth_syscall_3_10_macro_pic_2, payload_no_unauth_syscall_3_10_macro_pic_3,
 			#elif defined (FW315)
 				payload_no_unauth_syscall_3_15_macro_pic_1, payload_no_unauth_syscall_3_15_macro_pic_2, payload_no_unauth_syscall_3_15_macro_pic_3,
+			#elif defined (FW321)
+				payload_no_unauth_syscall_3_21_macro_pic_1, payload_no_unauth_syscall_3_21_macro_pic_2, payload_no_unauth_syscall_3_21_macro_pic_3,
 			#elif defined (FW341)
 				payload_no_unauth_syscall_3_41_macro_pic_1, payload_no_unauth_syscall_3_41_macro_pic_2, payload_no_unauth_syscall_3_41_macro_pic_3,
 			#else
