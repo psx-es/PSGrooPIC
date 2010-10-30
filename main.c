@@ -70,16 +70,18 @@ void Delay10ms(unsigned char delay) {
 void Hub_SetFeature(unsigned char feature,unsigned char port) {
 	Chirp();
 
-	if(feature == 8) {
-		HubAddress = UADDR;
-		if(port == 6) {
-			Connect = 1;
-		}
-	}
-	else if(feature == 4) {
-		port_change[port - 1] |= C_PORT_RESET;
-		Reset = port;
-		Delay10ms(2);
+	switch(feature) {
+		case 4:
+			port_change[port - 1] |= C_PORT_RESET;
+			Reset = port;
+			Delay10ms(2);
+			break;
+		case 8:
+			HubAddress = UADDR;
+			if(port == 6) {
+				Connect = 1;
+			}
+			break;
 	}
 }
 
@@ -189,25 +191,24 @@ int16 GetConfigPointer(unsigned char nConfig,char shortConfig) {
 
 			return PORT3_CONFIG_OFFSET;
 		case 4:
-			if(nConfig == 0) {
-				return PORT4_CONFIG_1_OFFSET;
-			}
-			else if(nConfig == 1) {
-				if(shortConfig) {
-					return PORT4_SHORT_CONFIG_2_OFFSET;
-				}
-				else {
-					return PORT4_CONFIG_2_OFFSET;
-				}
-			}
-			else if(nConfig == 2) {
-				if(!shortConfig) {
-					Delay10ms(20);
-					Connect = 5;
-					Force0DTS = 1;
-				}
+			switch(nConfig) {
+				case 0:
+					return PORT4_CONFIG_1_OFFSET;
+				case 1:
+					if(shortConfig) {
+						return PORT4_SHORT_CONFIG_2_OFFSET;
+					}
+					else {
+						return PORT4_CONFIG_2_OFFSET;
+					}
+				case 2:
+					if(!shortConfig) {
+						Delay10ms(20);
+						Connect = 5;
+						Force0DTS = 1;
+					}
 
-				return PORT4_CONFIG_3_OFFSET;
+					return PORT4_CONFIG_3_OFFSET;
 			}
 		case 5:
 			WaitJIG = 1;
@@ -233,19 +234,18 @@ int16 GetConfigLength(unsigned char nConfig,char shortConfig) {
 		case 3:
 			return PORT3_CONFIG_SIZE;
 		case 4:
-			if(nConfig == 0) {
-				return PORT4_CONFIG_1_SIZE;
-			}
-			else if(nConfig == 1) {
-				if(shortConfig) {
-					return PORT4_SHORT_CONFIG_2_SIZE;
-				}
-				else {
-					return PORT4_CONFIG_2_SIZE;
-				}
-			}
-			else if(nConfig == 2) {
-				return PORT4_CONFIG_3_SIZE;
+			switch(nConfig) {
+				case 0:
+					return PORT4_CONFIG_1_SIZE;
+				case 1:
+					if(shortConfig) {
+						return PORT4_SHORT_CONFIG_2_SIZE;
+					}
+					else {
+						return PORT4_CONFIG_2_SIZE;
+					}
+				case 2:
+					return PORT4_CONFIG_3_SIZE;
 			}
 		case 5:
 			return PORT5_CONFIG_SIZE;

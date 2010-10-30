@@ -109,7 +109,7 @@ all:
 
 clean: 
 		#Clean files.
-		rm -f $(CLEAN_FILES)
+		rm -f -r $(CLEAN_FILES)
 
 		#Remove compilations.
 		$(MAKE) -C PL3/ clean
