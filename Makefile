@@ -17,10 +17,6 @@ PAYLOADS_PIC	=	default_payload \
 					payload_dev \
 					payload_no_unauth_syscall
 
-PAYLOADS_PIC2	=	DEF_PL \
-					DEV_PL \
-					NUS_PL
-
 GITHEAD = $(shell cd $(PAYLOAD_DIR) && git rev-parse HEAD && cd ..)
 
 B2HTARGET_PIC = $(CURDIR)/tools/bin2header
@@ -39,10 +35,10 @@ all:
 		$(foreach fw_pic, $(FIRMWARES_PIC2), $(foreach pl_pic, $(PAYLOADS_PIC), ($(B2HTARGET_PIC) $(PAYLOAD_DIR)/$(pl_pic)_$(fw_pic).bin $(PAYLOAD_DIR)/$(pl_pic)_pic_$(fw_pic).h $(pl_pic)_$(fw_pic)); ))
 
 		#HEX with bootloader.
-		$(foreach fw_pic, $(FIRMWARES_PIC2), $(foreach pl_pic, $(PAYLOADS_PIC2), ($(CCS_COMPILER) $(CCS_FLAGS_WBL) $(CCS_FLAGS_LEDS) +G$(pl_pic)="true" +GFW$(fw_pic)="true" $(CCS_SOURCE)); ))
+		$(foreach fw_pic, $(FIRMWARES_PIC2), $(foreach pl_pic, $(PAYLOADS_PIC), ($(CCS_COMPILER) $(CCS_FLAGS_WBL) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); ))
 
 		#HEX without bootloader.
-		$(foreach fw_pic, $(FIRMWARES_PIC2), $(foreach pl_pic, $(PAYLOADS_PIC2), ($(CCS_COMPILER) $(CCS_FLAGS_NBL) $(CCS_FLAGS_LEDS) +G$(pl_pic)="true" +GFW$(fw_pic)="true" $(CCS_SOURCE)); ))
+		$(foreach fw_pic, $(FIRMWARES_PIC2), $(foreach pl_pic, $(PAYLOADS_PIC), ($(CCS_COMPILER) $(CCS_FLAGS_NBL) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); ))
 
 		#Create build structure.
 		mkdir $(BUILD_DIR)
@@ -57,12 +53,12 @@ all:
 				mkdir $(BUILD_DIR)/NUS/nBTL
 
 		#Move each payload to its directory.
-		mv *_DEF_*_wBTL.hex $(BUILD_DIR)/DEF/wBTL
-		mv *_DEF_*_nBTL.hex $(BUILD_DIR)/DEF/nBTL
-		mv *_DEV_*_wBTL.hex $(BUILD_DIR)/DEV/wBTL
-		mv *_DEV_*_nBTL.hex $(BUILD_DIR)/DEV/nBTL
-		mv *_NUS_*_wBTL.hex $(BUILD_DIR)/NUS/wBTL
-		mv *_NUS_*_nBTL.hex $(BUILD_DIR)/NUS/nBTL
+		mv *_DEFAULT_PAYLOAD_*_wBTL.hex $(BUILD_DIR)/DEF/wBTL
+		mv *_DEFAULT_PAYLOAD_*_nBTL.hex $(BUILD_DIR)/DEF/nBTL
+		mv *_PAYLOAD_DEV_*_wBTL.hex $(BUILD_DIR)/DEV/wBTL
+		mv *_PAYLOAD_DEV_*_nBTL.hex $(BUILD_DIR)/DEV/nBTL
+		mv *_PAYLOAD_NO_UNAUTH_SYSCALL_*_wBTL.hex $(BUILD_DIR)/NUS/wBTL
+		mv *_PAYLOAD_NO_UNAUTH_SYSCALL_*_nBTL.hex $(BUILD_DIR)/NUS/nBTL
 
 		#Zip all HEX.
 		cd $(BUILD_DIR) && $(ZIP) "PSGrooPIC_PL3_$(GITHEAD)" *

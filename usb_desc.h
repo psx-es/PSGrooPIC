@@ -2,17 +2,6 @@
 
 #define PORT1_NUM_CONFIGS   4
 
-#if defined (DEV_PL)
-	#define PAYLOAD			payload_dev
-	#define PAYLOAD_EXPORT	DEV
-#elif defined (DEF_PL)
-	#define PAYLOAD			default_payload
-	#define PAYLOAD_EXPORT	DEF
-#elif defined (NUS_PL)
-	#define PAYLOAD			payload_no_unauth_syscall
-	#define PAYLOAD_EXPORT	NUS
-#endif
-
 #if defined (FW3_01)
 	#define RTOC_TABLE      0x80,0x00,0x00,0x00,0x00,0x32,0x06,0x40
 	#define SHELLCODE_ADDR  0x80,0x00,0x00,0x00,0x00,0x3B,0xFB,0xC8
@@ -47,8 +36,8 @@
 	#define BOOTLOADER_EXPORT	nBTL
 #endif
 
-#define FILE_EXPORT(payload, firmware, btl) FILE=PSGrooPIC_PL3_##payload##_FW##firmware##_##btl##.hex
-#export (HEX, FILE_EXPORT(PAYLOAD_EXPORT, FIRMWARE, BOOTLOADER_EXPORT))
+#define FILE_EXPORT(payload_e, firmware_e, btl_e) FILE=PSGrooPIC_PL3_##payload_e##_FW##firmware_e##_##btl_e##.hex
+#export (HEX, FILE_EXPORT(PAYLOAD, FIRMWARE, BOOTLOADER_EXPORT))
 
 #define SHELLCODE_PAGE			0x80,0x00,0x00,0x00,0x00,0x40,0x00,0x00
 #define SHELLCODE_DESTINATION	SHELLCODE_ADDR
@@ -57,6 +46,12 @@
 
 #define PAYLOAD_INCLUDE(payload, firmware) <PL3/payload##_pic_##firmware.h>
 #include PAYLOAD_INCLUDE(PAYLOAD, FIRMWARE)
+
+#define default_payload_macro(payload, firmware, num) payload##_##firmware##_macro_pic_##num##
+
+#define default_payload_macro_1 default_payload_macro(PAYLOAD, FIRMWARE, 1)
+#define default_payload_macro_2 default_payload_macro(PAYLOAD, FIRMWARE, 2)
+#define default_payload_macro_3 default_payload_macro(PAYLOAD, FIRMWARE, 3)
 
 const unsigned int8 USB_DEVICE_DESC[] = {
 	//HUB_DEVICE
@@ -85,55 +80,7 @@ const unsigned int8 USB_CONFIG_DESC[] = {
    //PORT1_CONFIG
 		0x09, 0x02, 0x12, 0x00, 0x01, 0x00, 0x00, 0x80, 0xfa, 0x09, 0x04, 0x00, 0x00, 0x00, 0xfe, 0x01,
 		0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, MAGIC_NUMBER,
-		#if defined (DEF_PL)
-			#if defined (FW3_01)
-				default_payload_3_01_macro_pic_1, default_payload_3_01_macro_pic_2, default_payload_3_01_macro_pic_3,
-			#elif defined (FW3_10)
-				default_payload_3_10_macro_pic_1, default_payload_3_10_macro_pic_2, default_payload_3_10_macro_pic_3,
-			#elif defined (FW3_15)
-				default_payload_3_15_macro_pic_1, default_payload_3_15_macro_pic_2, default_payload_3_15_macro_pic_3,
-			#elif defined (FW3_21)
-				default_payload_3_21_macro_pic_1, default_payload_3_21_macro_pic_2, default_payload_3_21_macro_pic_3,
-			#elif defined (FW3_40)
-				default_payload_3_40_macro_pic_1, default_payload_3_40_macro_pic_2, default_payload_3_40_macro_pic_3,
-			#elif defined (FW3_41)
-				default_payload_3_41_macro_pic_1, default_payload_3_41_macro_pic_2, default_payload_3_41_macro_pic_3,
-			#else
-				#error Firmware not defined
-			#endif
-		#elif defined (DEV_PL)
-			#if defined (FW3_01)
-				payload_dev_3_01_macro_pic_1, payload_dev_3_01_macro_pic_2, payload_dev_3_01_macro_pic_3,
-			#elif defined (FW3_10)
-				payload_dev_3_10_macro_pic_1, payload_dev_3_10_macro_pic_2, payload_dev_3_10_macro_pic_3,
-			#elif defined (FW3_15)
-				payload_dev_3_15_macro_pic_1, payload_dev_3_15_macro_pic_2, payload_dev_3_15_macro_pic_3,
-			#elif defined (FW3_21)
-				payload_dev_3_21_macro_pic_1, payload_dev_3_21_macro_pic_2, payload_dev_3_21_macro_pic_3,
-			#elif defined (FW3_40)
-				payload_dev_3_40_macro_pic_1, payload_dev_3_40_macro_pic_2, payload_dev_3_40_macro_pic_3,
-			#elif defined (FW3_41)
-				payload_dev_3_41_macro_pic_1, payload_dev_3_41_macro_pic_2, payload_dev_3_41_macro_pic_3,
-			#else
-				#error Firmware not defined
-			#endif
-		#elif defined (NUS_PL)
-			#if defined (FW3_01)
-				payload_no_unauth_syscall_3_01_macro_pic_1, payload_no_unauth_syscall_3_01_macro_pic_2, payload_no_unauth_syscall_3_01_macro_pic_3,
-			#elif defined (FW3_10)
-				payload_no_unauth_syscall_3_10_macro_pic_1, payload_no_unauth_syscall_3_10_macro_pic_2, payload_no_unauth_syscall_3_10_macro_pic_3,
-			#elif defined (FW3_15)
-				payload_no_unauth_syscall_3_15_macro_pic_1, payload_no_unauth_syscall_3_15_macro_pic_2, payload_no_unauth_syscall_3_15_macro_pic_3,
-			#elif defined (FW3_21)
-				payload_no_unauth_syscall_3_21_macro_pic_1, payload_no_unauth_syscall_3_21_macro_pic_2, payload_no_unauth_syscall_3_21_macro_pic_3,
-			#elif defined (FW3_40)
-				payload_no_unauth_syscall_3_40_macro_pic_1, payload_no_unauth_syscall_3_40_macro_pic_2, payload_no_unauth_syscall_3_40_macro_pic_3,
-			#elif defined (FW3_41)
-				payload_no_unauth_syscall_3_41_macro_pic_1, payload_no_unauth_syscall_3_41_macro_pic_2, payload_no_unauth_syscall_3_41_macro_pic_3,
-			#else
-				#error Firmware not defined
-			#endif
-		#endif
+		default_payload_macro_1, default_payload_macro_2, default_payload_macro_3,
 	//PORT2_CONFIG
 		0x09,0x02,0x16,0x00,0x01,0x01,0x00,0x80,0x01,0x09,0x04,0x00,0x00,0x00,0xFE,0x01,0x02,0x00,0x04,0x21,0xB4,0x2F,
 	//PORT3_CONFIG
