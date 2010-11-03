@@ -8,9 +8,10 @@ BUILD_DIR				= build
 PAYLOAD_DIR				= PL3
 CLEAN_FILES				= *.err *.esym *.cod *.sym *.hex *.zip PL3/*_pic_*.h build
 
-SUPPORTED_FIRMWARES_PIC	= 3.41 3.40 3.21 3.15 3.10 3.01
-FIRMWARES_PIC			= $(SUPPORTED_FIRMWARES_PIC:3.%=3_%)
-FIRMWARES_PIC2			=	$(foreach fw,$(FIRMWARES_PIC), \
+SUPPORTED_FIRMWARES_PIC	= 3.41 3.40 3.21 3.15 3.10 3.01 2.76
+FIRMWARES_PIC1			= $(SUPPORTED_FIRMWARES_PIC:2.%=2_%)
+FIRMWARES_PIC2			= $(FIRMWARES_PIC1:3.%=3_%)
+FIRMWARES_PIC3			=	$(foreach fw,$(FIRMWARES_PIC2), \
 							$(fw))
 
 PAYLOADS_PIC	=	default_payload \
@@ -32,13 +33,13 @@ all:
 		$(MAKE) -C $(PAYLOAD_DIR)
 
 		#Make custom Payloads.
-		$(foreach fw_pic, $(FIRMWARES_PIC2), $(foreach pl_pic, $(PAYLOADS_PIC), ($(B2HTARGET_PIC) $(PAYLOAD_DIR)/$(pl_pic)_$(fw_pic).bin $(PAYLOAD_DIR)/$(pl_pic)_pic_$(fw_pic).h $(pl_pic)_$(fw_pic)); ))
+		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ($(B2HTARGET_PIC) $(PAYLOAD_DIR)/$(pl_pic)_$(fw_pic).bin $(PAYLOAD_DIR)/$(pl_pic)_pic_$(fw_pic).h $(pl_pic)_$(fw_pic)); ))
 
 		#HEX with bootloader.
-		$(foreach fw_pic, $(FIRMWARES_PIC2), $(foreach pl_pic, $(PAYLOADS_PIC), ($(CCS_COMPILER) $(CCS_FLAGS_WBL) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); ))
+		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ($(CCS_COMPILER) $(CCS_FLAGS_WBL) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); ))
 
 		#HEX without bootloader.
-		$(foreach fw_pic, $(FIRMWARES_PIC2), $(foreach pl_pic, $(PAYLOADS_PIC), ($(CCS_COMPILER) $(CCS_FLAGS_NBL) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); ))
+		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ($(CCS_COMPILER) $(CCS_FLAGS_NBL) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); ))
 
 		#Create build structure.
 		mkdir $(BUILD_DIR)
