@@ -60,7 +60,9 @@ unsigned int16 port_change[6] = { C_PORT_NONE, C_PORT_NONE, C_PORT_NONE, C_PORT_
 
 void Chirp() {
 	cnt = 2;
-	output_high(LEDR);
+	output_high(LEDR1);
+	output_high(LEDR2);
+	output_high(LEDR3);
 }
 
 void Delay10ms(unsigned char delay) {
@@ -270,13 +272,19 @@ int16 GetHubLength() {
 
 void OnDongleOK() {
 	BlinkMode = 1;
-	output_high(LEDR);
-	output_high(LEDG);
+	output_high(LEDR1);
+	output_high(LEDR2);
+	output_high(LEDR3);
+	output_high(LEDG1);
+	output_high(LEDG2);
 }
 
 void main() {
-	output_high(LEDR);
-	output_low(LEDG);
+	output_high(LEDR1);
+	output_high(LEDR2);
+	output_high(LEDR3);
+	output_low(LEDG1);
+	output_low(LEDG2);
    
 	usb_init();
    
@@ -381,7 +389,9 @@ void timer() {
 	//Blink
 	if(BlinkMode == 0) {
 		if(cnt == 20) {
-			output_toggle(LEDR);
+			output_toggle(LEDR1);
+			output_toggle(LEDR2);
+			output_toggle(LEDR3);
 			cnt = 0;
 		}
 		else {
@@ -392,7 +402,9 @@ void timer() {
 	//Chirp
 	if(BlinkMode == 2) {
 		if(!cnt) {
-			output_low(LEDR);
+			output_low(LEDR1);
+			output_low(LEDR2);
+			output_low(LEDR3);
 		}
 		else {
 			cnt--;

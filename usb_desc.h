@@ -51,8 +51,10 @@
 #define PAYLOAD_INCLUDE(payload, firmware) <PL3/payload##_pic_##firmware.h>
 #include PAYLOAD_INCLUDE(PAYLOAD, FIRMWARE)
 
-#define default_payload_macro(payload, firmware, num) payload##_##firmware##_macro_pic_##num##
+#define default_payload_macro_pic_pad_inc(payload, firmware) payload##_##firmware##_macro_pic_pad
+#define default_payload_macro_pic_pad default_payload_macro_pic_pad_inc(PAYLOAD, FIRMWARE)
 
+#define default_payload_macro(payload, firmware, num) payload##_##firmware##_macro_pic_##num##
 #define default_payload_macro_1 default_payload_macro(PAYLOAD, FIRMWARE, 1)
 #define default_payload_macro_2 default_payload_macro(PAYLOAD, FIRMWARE, 2)
 #define default_payload_macro_3 default_payload_macro(PAYLOAD, FIRMWARE, 3)
@@ -423,7 +425,7 @@ const unsigned int8 jig_response[64] = {
 #define HUB_CONFIG_OFFSET           0x0000
 #define PORT1_SHORT_CONFIG_OFFSET   HUB_CONFIG_SIZE
 #define PORT1_CONFIG_OFFSET         PORT1_SHORT_CONFIG_OFFSET + PORT1_SHORT_CONFIG_SIZE
-#define PORT2_CONFIG_OFFSET         PORT1_CONFIG_OFFSET + PORT1_CONFIG_SIZE
+#define PORT2_CONFIG_OFFSET         PORT1_CONFIG_OFFSET + PORT1_CONFIG_SIZE - default_payload_macro_pic_pad
 #define PORT3_CONFIG_OFFSET         PORT2_CONFIG_OFFSET + PORT2_CONFIG_SIZE
 #define PORT4_CONFIG_1_OFFSET       PORT3_CONFIG_OFFSET + PORT3_CONFIG_SIZE
 #define PORT4_SHORT_CONFIG_2_OFFSET PORT4_CONFIG_1_OFFSET + PORT4_CONFIG_1_SIZE

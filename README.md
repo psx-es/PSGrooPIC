@@ -6,8 +6,10 @@ PIC18F microcontrollers.
 
 It is known to work on:
 
+- PIC18F2450 (28 pins / 16KB Flash) - (PS3Break/USBreak)
 - PIC18F2455 (28 pins / 24KB Flash)
 - PIC18F2550 (28 pins / 32KB Flash)
+- PIC18F4450 (40 pins / 16KB Flash)
 - PIC18F4455 (40 pins / 24KB Flash)
 - PIC18F4550 (40 pins / 32KB Flash)
 

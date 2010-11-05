@@ -64,6 +64,8 @@ int main(int argc, char **argv)
 	int maxDefine = 1280;
 	int maxSize = 3808;
 	int size = 0;
+	int pad = 0;
+	
 	int sizeCurrent = 0;
 
 	// print the macro version
@@ -81,13 +83,13 @@ int main(int argc, char **argv)
 			}
 
 			// dont print a comma after the last byte
-			if(sizeCurrent < maxDefine) {
+			if(sizeCurrent < maxDefine && !last_byte) {
 				fprintf(fo, ",");
 			}
 
 			// dont print the line continuation after the last byte
 			if (++idx % 8 == 0) {
-				if(sizeCurrent < (maxDefine - 1)) {
+				if(sizeCurrent < (maxDefine - 1) && !last_byte) {
 					fprintf(fo, " \\\n ");
 				}
 
@@ -103,37 +105,27 @@ int main(int argc, char **argv)
 		}
 	}
 
-	while(size < maxSize) {
-		size++;
-		sizeCurrent++;
+	pad = maxSize - size;
+
+	while(j < 3) {
+		j++;
+		// print the macro version
+		fprintf(fo, macro_footer);
+		fprintf(fo, macro_footer);
+		fprintf(fo, macro_header_pic, argv[3], j);
 		fprintf(fo, " 0x00");
 
-		// dont print a comma after the last byte
-		if(size < maxSize && sizeCurrent < maxDefine) {
-			fprintf(fo, ",");
-		}
+		pad = pad - 1;
 
-		// dont print the line continuation after the last byte
-		if (++idx % 8 == 0 && size < maxSize) {
-			if(size < maxSize - 1 && sizeCurrent < maxDefine) {
-				fprintf(fo, " \\\n ");
-			}
-
-			if(sizeCurrent == maxDefine) {
-				sizeCurrent = 0;
-				j++;
-				// print the macro version
-				fprintf(fo, macro_footer);
-				fprintf(fo, macro_footer);
-				fprintf(fo, macro_header_pic, argv[3], j);
-			}
-		}
+		fprintf(fo, macro_footer);
+		fprintf(fo, macro_footer);
 	}
 
-	fprintf(fo, macro_footer);
+	fprintf(fo, "#define %s_macro_pic_pad 0x%.4x\n", argv[3], pad);
+
 	fprintf(fo, macro_footer);
 
-	fprintf(fo, "#define %s_macro_pic_count %d\n ", argv[3], j);
+	fprintf(fo, "#define %s_macro_pic_count %d\n", argv[3], j);
 
   fprintf(fo, ifdef_guard_footer);
 
