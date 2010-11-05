@@ -6,7 +6,10 @@ PIC18F microcontrollers.
 
 It is known to work on:
 
-- PIC18F2550
+- PIC18F2455 (28 pins / 24KB Flash)
+- PIC18F2550 (28 pins / 32KB Flash)
+- PIC18F4455 (40 pins / 24KB Flash)
+- PIC18F4550 (40 pins / 32KB Flash)
 
 **This software is not intended to enable piracy, and such features
 have been disabled.  This software is intended to allow the execution
