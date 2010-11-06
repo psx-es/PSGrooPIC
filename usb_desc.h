@@ -34,8 +34,10 @@
 	#error Firmware not defined
 #endif
 
-#if defined (WBOOTLOADER)
-	#define BOOTLOADER_EXPORT	wBTL
+#if defined (WBOOTLOADERHID)
+	#define BOOTLOADER_EXPORT	wBTL_HID
+#elif defined (WBOOTLOADERMCHP)
+	#define BOOTLOADER_EXPORT	wBTL_MCHP
 #else
 	#define BOOTLOADER_EXPORT	nBTL
 #endif

@@ -7,8 +7,12 @@
 /////////////////////////
 // Bootloader Memory Space
 // USB HID Bootloader
-#if defined (WBOOTLOADER)
+#if defined (WBOOTLOADERHID)
 	#define CODE_START   0x1000
+	#build(reset=CODE_START, interrupt=CODE_START+0x08)
+	#org 0, CODE_START-1 {}
+#elif defined (WBOOTLOADERMCHP)
+	#define CODE_START   0x800
 	#build(reset=CODE_START, interrupt=CODE_START+0x08)
 	#org 0, CODE_START-1 {}
 #endif
