@@ -37,13 +37,13 @@ all:
 		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ($(B2HTARGET_PIC) $(PAYLOAD_DIR)/$(pl_pic)_$(fw_pic).bin $(PAYLOAD_DIR)/$(pl_pic)_pic_$(fw_pic).h $(pl_pic)_$(fw_pic)); ))
 
 		#HEX with HID Bootloader.
-		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ($(CCS_COMPILER) $(CCS_FLAGS_WBLHID) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); echo "HID Bootloader -> Firmware: $(fw_pic) | Payload: $(pl_pic)";))
+		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ( echo "HID Bootloader -> Firmware: $(fw_pic) | Payload: $(pl_pic)"; $(CCS_COMPILER) $(CCS_FLAGS_WBLHID) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); ))
 
 		#HEX with MCHP Bootloader.
-		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ($(CCS_COMPILER) $(CCS_FLAGS_WBLMCHP) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); echo "MCHP Bootloader -> Firmware: $(fw_pic) | Payload: $(pl_pic)";))
+		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ( echo "MCHP Bootloader -> Firmware: $(fw_pic) | Payload: $(pl_pic)"; $(CCS_COMPILER) $(CCS_FLAGS_WBLMCHP) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); ))
 
 		#HEX without Bootloader.
-		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ($(CCS_COMPILER) $(CCS_FLAGS_NBL) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); echo "No Bootloader -> Firmware: $(fw_pic) | Payload: $(pl_pic)";))
+		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ( echo "No Bootloader -> Firmware: $(fw_pic) | Payload: $(pl_pic)"; $(CCS_COMPILER) $(CCS_FLAGS_NBL) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" $(CCS_SOURCE)); ))
 
 		#Create build structure.
 		mkdir $(BUILD_DIR)
@@ -59,6 +59,9 @@ all:
 				mkdir $(BUILD_DIR)/NUS/wBTL_HID
 				mkdir $(BUILD_DIR)/NUS/wBTL_MCHP
 				mkdir $(BUILD_DIR)/NUS/nBTL
+
+		#Fix MCHP Bootloader
+		sed -i '1i :020000040000FA..' PSGrooPIC_*_wBTL_MCHP.hex
 
 		#Move each payload to its directory.
 		mv *_DEFAULT_PAYLOAD_*_wBTL_HID.hex $(BUILD_DIR)/DEF/wBTL_HID
