@@ -107,6 +107,8 @@ int main(int argc, char **argv)
 
 	pad = maxSize - size;
 
+	int footed = 0;
+
 	while(j < 3) {
 		j++;
 		// print the macro version
@@ -119,7 +121,15 @@ int main(int argc, char **argv)
 
 		fprintf(fo, macro_footer);
 		fprintf(fo, macro_footer);
+
+		footed = 1;
 	}
+
+	if(!footed) {
+		fprintf(fo, macro_footer);
+		fprintf(fo, macro_footer);
+	}
+
 
 	fprintf(fo, "#define %s_macro_pic_pad 0x%.4x\n", argv[3], pad);
 

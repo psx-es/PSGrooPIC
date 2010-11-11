@@ -42,24 +42,24 @@
 	#define BOOTLOADER_EXPORT	nBTL
 #endif
 
-#define FILE_EXPORT(payload_e, firmware_e, btl_e) FILE=PSGrooPIC_PL3_##payload_e##_FW##firmware_e##_##btl_e##.hex
-#export (HEX, FILE_EXPORT(PAYLOAD, FIRMWARE, BOOTLOADER_EXPORT))
+#define FILE_EXPORT(payload_dir_e, payload_e, firmware_e, btl_e) FILE=PSGrooPIC_##payload_dir_e##_##payload_e##_FW##firmware_e##_##btl_e##.hex
+#export (HEX, FILE_EXPORT(PAYLOAD_DIR, PAYLOAD, FIRMWARE, BOOTLOADER_EXPORT))
 
 #define SHELLCODE_PAGE			0x80,0x00,0x00,0x00,0x00,0x40,0x00,0x00
 #define SHELLCODE_DESTINATION	SHELLCODE_ADDR
 #define SHELLCODE_PTR			SHELLCODE_ADDR + 0x08
 #define SHELLCODE_ADDRESS		SHELLCODE_ADDR + 0x18
 
-#define PAYLOAD_INCLUDE(payload, firmware) <PL3/payload##_pic_##firmware.h>
-#include PAYLOAD_INCLUDE(PAYLOAD, FIRMWARE)
+#define PAYLOAD_INCLUDE(payload_dir_e, payload, firmware) <payload_dir_e##/payload##_pic_##firmware.h>
+#include PAYLOAD_INCLUDE(PAYLOAD_DIR, PAYLOAD, FIRMWARE)
 
-#define default_payload_macro_pic_pad_inc(payload, firmware) payload##_##firmware##_macro_pic_pad
-#define default_payload_macro_pic_pad default_payload_macro_pic_pad_inc(PAYLOAD, FIRMWARE)
+#define payload_macro_pic_pad_inc(payload, firmware) payload##_##firmware##_macro_pic_pad
+#define payload_macro_pic_pad payload_macro_pic_pad_inc(PAYLOAD, FIRMWARE)
 
-#define default_payload_macro(payload, firmware, num) payload##_##firmware##_macro_pic_##num##
-#define default_payload_macro_1 default_payload_macro(PAYLOAD, FIRMWARE, 1)
-#define default_payload_macro_2 default_payload_macro(PAYLOAD, FIRMWARE, 2)
-#define default_payload_macro_3 default_payload_macro(PAYLOAD, FIRMWARE, 3)
+#define payload_macro(payload, firmware, num) payload##_##firmware##_macro_pic_##num##
+#define payload_macro_1 payload_macro(PAYLOAD, FIRMWARE, 1)
+#define payload_macro_2 payload_macro(PAYLOAD, FIRMWARE, 2)
+#define payload_macro_3 payload_macro(PAYLOAD, FIRMWARE, 3)
 
 const unsigned int8 USB_DEVICE_DESC[] = {
 	//HUB_DEVICE
@@ -88,7 +88,7 @@ const unsigned int8 USB_CONFIG_DESC[] = {
    //PORT1_CONFIG
 		0x09, 0x02, 0x12, 0x00, 0x01, 0x00, 0x00, 0x80, 0xfa, 0x09, 0x04, 0x00, 0x00, 0x00, 0xfe, 0x01,
 		0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, MAGIC_NUMBER,
-		default_payload_macro_1, default_payload_macro_2, default_payload_macro_3,
+		payload_macro_1, payload_macro_2, payload_macro_3,
 	//PORT2_CONFIG
 		0x09,0x02,0x16,0x00,0x01,0x01,0x00,0x80,0x01,0x09,0x04,0x00,0x00,0x00,0xFE,0x01,0x02,0x00,0x04,0x21,0xB4,0x2F,
 	//PORT3_CONFIG
@@ -427,7 +427,7 @@ const unsigned int8 jig_response[64] = {
 #define HUB_CONFIG_OFFSET           0x0000
 #define PORT1_SHORT_CONFIG_OFFSET   HUB_CONFIG_SIZE
 #define PORT1_CONFIG_OFFSET         PORT1_SHORT_CONFIG_OFFSET + PORT1_SHORT_CONFIG_SIZE
-#define PORT2_CONFIG_OFFSET         PORT1_CONFIG_OFFSET + PORT1_CONFIG_SIZE - default_payload_macro_pic_pad
+#define PORT2_CONFIG_OFFSET         PORT1_CONFIG_OFFSET + PORT1_CONFIG_SIZE - payload_macro_pic_pad
 #define PORT3_CONFIG_OFFSET         PORT2_CONFIG_OFFSET + PORT2_CONFIG_SIZE
 #define PORT4_CONFIG_1_OFFSET       PORT3_CONFIG_OFFSET + PORT3_CONFIG_SIZE
 #define PORT4_SHORT_CONFIG_2_OFFSET PORT4_CONFIG_1_OFFSET + PORT4_CONFIG_1_SIZE
