@@ -1,17 +1,22 @@
-PSGroove
-========
+PSGrooPIC
+=========
 
-This is the PSGrooPIC, an open-source reimplementation of the psjailbreak exploit for
-PIC18F microcontrollers.
+PSGrooPIC is an open-source reimplementation of the psjailbreak exploit for PIC18F microcontrollers.
 
 It is known to work on:
 
-- PIC18F2450 (28 pins / 16KB Flash) - (PS3Break/USBreak)
+- PIC18F14K50 (20 pins / 16KB Flash)
+- PIC18F2450 (28 pins / 16KB Flash)
 - PIC18F2455 (28 pins / 24KB Flash)
 - PIC18F2550 (28 pins / 32KB Flash)
+- PIC18F2553 (28 pins / 32KB Flash)
+- PIC18F27J53 (28 pins / 128KB Flash)
 - PIC18F4450 (40 pins / 16KB Flash)
 - PIC18F4455 (40 pins / 24KB Flash)
 - PIC18F4550 (40 pins / 32KB Flash)
+- PIC18F4553 (40 pins / 32KB Flash)
+- PIC18F47J53 (40 pins / 128KB Flash)
+- PIC18F67J50 (64 pins / 128KB Flash)
 
 **This software is not intended to enable piracy, and such features
 have been disabled.  This software is intended to allow the execution
@@ -75,8 +80,16 @@ about that.
 
 Credits
 -------
-Special thanks to the developers of PSGroove (http://github.com/psgroove/psgroove), who did the real hard work by reversing the code from the original PSJailbreak.
+Thanks to PSGroove developers who did the real hard work by reversing the code from the original PSJailbreak.
 
-Thanks to the developers of PSGrooPIC, which made possible the port to the PIC18F, to the people who keep it updated by integrating the latest payloads and also to the ones that have contributed to integrate PL3 on it. (J1M, ElSemi, TSC, laichung, Noltari).
+Thanks to ElSemi which made possible the first port to PIC18F.
 
-And finally, thanks to kakarotoks for creating and maintaining PL3, the open source payload which makes simpler the update of our devices.
+Thanks to Kakaroto for 'the PL3 movement'.
+
+Thanks to laichung for PIC18F PL3 integration.
+
+Thanks to Noltari for his complete and clean PIC18F PL3 integration.
+
+Thanks to J1M and TSC for updating PSGrooPIC non-stop :).
+
+And thanks to all the community around this work.
