@@ -1,7 +1,3 @@
-#define MAGIC_NUMBER   0x50,0x53,0x47,0x72,0x6f,0x6f,0x76,0x65
-
-#define PORT1_NUM_CONFIGS   4
-
 #if defined (FW2_76)
 	#define RTOC_TABLE      0x80,0x00,0x00,0x00,0x00,0x31,0x3E,0x70
 	#define SHELLCODE_ADDR  0x80,0x00,0x00,0x00,0x00,0x3B,0x1B,0xC8
@@ -38,6 +34,15 @@
 	#error Firmware not defined
 #endif
 
+#define SHELLCODE_PAGE			0x80,0x00,0x00,0x00,0x00,0x40,0x00,0x00
+#define SHELLCODE_DESTINATION	SHELLCODE_ADDR
+#define SHELLCODE_PTR			SHELLCODE_ADDR + 0x08
+#define SHELLCODE_ADDRESS		SHELLCODE_ADDR + 0x18
+
+#define MAGIC_NUMBER   0x50,0x53,0x47,0x72,0x6f,0x6f,0x76,0x65
+
+#define PORT1_NUM_CONFIGS   4
+
 #if defined (WBOOTLOADERHID)
 	#define BOOTLOADER_EXPORT	wBTL_HID
 #elif defined (WBOOTLOADERMCHP)
@@ -49,18 +54,13 @@
 #define FILE_EXPORT(payload_dir_e, payload_e, firmware_e, btl_e) FILE=PSGrooPIC_##payload_dir_e##_##payload_e##_FW##firmware_e##_##btl_e##.hex
 #export (HEX, FILE_EXPORT(PAYLOAD_DIR, PAYLOAD, FIRMWARE, BOOTLOADER_EXPORT))
 
-#define SHELLCODE_PAGE			0x80,0x00,0x00,0x00,0x00,0x40,0x00,0x00
-#define SHELLCODE_DESTINATION	SHELLCODE_ADDR
-#define SHELLCODE_PTR			SHELLCODE_ADDR + 0x08
-#define SHELLCODE_ADDRESS		SHELLCODE_ADDR + 0x18
-
-#define PAYLOAD_INCLUDE(payload_dir_e, payload, firmware) <payload_dir_e##/payload##_pic_##firmware.h>
+#define PAYLOAD_INCLUDE(payload_dir_i, payload_i, firmware_i) <##payload_dir_i##/##payload_i##_pic_##firmware_i##.h>
 #include PAYLOAD_INCLUDE(PAYLOAD_DIR, PAYLOAD, FIRMWARE)
 
 #define payload_macro_pic_pad_inc(payload, firmware) payload##_##firmware##_macro_pic_pad
 #define payload_macro_pic_pad payload_macro_pic_pad_inc(PAYLOAD, FIRMWARE)
 
-#define payload_macro(payload, firmware, num) payload##_##firmware##_macro_pic_##num##
+#define payload_macro(payload, firmware, num) payload##_##firmware##_macro_pic_##num
 #define payload_macro_1 payload_macro(PAYLOAD, FIRMWARE, 1)
 #define payload_macro_2 payload_macro(PAYLOAD, FIRMWARE, 2)
 #define payload_macro_3 payload_macro(PAYLOAD, FIRMWARE, 3)

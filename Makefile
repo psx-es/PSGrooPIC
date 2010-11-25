@@ -31,19 +31,9 @@ VERSION = $(shell cd $(PAYLOAD_DIR) && git rev-parse HEAD && cd ..)
 
 B2HTARGET_PIC = $(CURDIR)/tools/bin2header
 
-all:
-		#Remove existing builds.
-		rm -f -r build
+all: clean payloads psgroopic
 
-		#Make bin2header.
-		$(MAKE) -C tools
-
-		#Make Payload.
-		$(MAKE) -C $(PAYLOAD_DIR)
-
-		#Make custom Payloads.
-		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ($(B2HTARGET_PIC) $(PAYLOAD_DIR)/$(pl_pic)_$(fw_pic).bin $(PAYLOAD_DIR)/$(pl_pic)_pic_$(fw_pic).h $(pl_pic)_$(fw_pic)); ))
-
+psgroopic:
 		#HEX with HID Bootloader.
 		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ( echo "HID Bootloader -> Firmware: $(fw_pic) | Payload: $(pl_pic)"; $(CCS_COMPILER) $(CCS_FLAGS_WBLHID) $(CCS_FLAGS_LEDS) +GFW$(fw_pic)="true" +GPAYLOAD="$(pl_pic)" +GPAYLOAD_DIR=$(PAYLOAD_DIR) $(CCS_SOURCE)); ))
 
@@ -67,6 +57,16 @@ all:
 		#Zip all HEX.
 		cd $(BUILD_DIR) && $(ZIP) "PSGrooPIC_$(PAYLOAD_DIR)_$(VERSION)" *
 		mv build/PSGrooPIC_$(PAYLOAD_DIR)_$(VERSION).zip ./
+
+payloads:
+		#Make bin2header.
+		$(MAKE) -C tools
+
+		#Make Payload.
+		$(MAKE) -C $(PAYLOAD_DIR)
+
+		#Make custom Payloads.
+		$(foreach fw_pic, $(FIRMWARES_PIC3), $(foreach pl_pic, $(PAYLOADS_PIC), ($(B2HTARGET_PIC) $(PAYLOAD_DIR)/$(pl_pic)_$(fw_pic).bin $(PAYLOAD_DIR)/$(pl_pic)_pic_$(fw_pic).h $(pl_pic)_$(fw_pic)); ))
 
 clean: 
 		#Clean files.
