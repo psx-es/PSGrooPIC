@@ -28,33 +28,33 @@ static const char macro_footer[] = "\n";
 
 int main(int argc, char **argv)
 {
-  char buf[256];
-  FILE *fi, *fo;
-  int i, idx, r, last_byte;
-  long file_size;
+	char buf[256];
+	FILE *fi, *fo;
+	int i, idx, r, last_byte;
+	long file_size;
 
-  if (argc < 4) {
-    fprintf(stderr, "Usage: %s <raw> <c header> <array name>\n", argv[0]);
-    return -1;
-  }
+	if (argc < 4) {
+		fprintf(stderr, "Usage: %s <raw> <c header> <array name>\n", argv[0]);
+		return -1;
+	}
 
-  fi = fopen(argv[1], "rb");
-  if (fi == NULL) {
-    perror(argv[1]);
-    return -2;
-  }
+	fi = fopen(argv[1], "rb");
+	if (fi == NULL) {
+		perror(argv[1]);
+		return -2;
+	}
 
-  fo = fopen(argv[2], "w");
-  if (fo == NULL) {
-    perror(argv[2]);
-    return -3;
-  }
+	fo = fopen(argv[2], "w");
+	if (fo == NULL) {
+		perror(argv[2]);
+		return -3;
+	}
 
-  fprintf(fo, ifdef_guard_header, argv[3], argv[3]);
+	fprintf(fo, ifdef_guard_header, argv[3], argv[3]);
 
-  // obtain the file size
-  fseek (fi , 0 , SEEK_END);
-  file_size = ftell(fi) - 1;
+	// obtain the file size
+	fseek (fi , 0 , SEEK_END);
+	file_size = ftell(fi) - 1;
 
     // rewind the file so it can be read again
 	fseek(fi, 0, SEEK_SET);
@@ -62,10 +62,10 @@ int main(int argc, char **argv)
 	int j = 1;
 	idx = 0;
 	int maxDefine = 1280;
-	int maxSize = 3808;
+	int maxSize = 4064;
 	int size = 0;
 	int pad = 0;
-	
+
 	int sizeCurrent = 0;
 
 	// print the macro version
@@ -109,7 +109,7 @@ int main(int argc, char **argv)
 
 	int footed = 0;
 
-	while(j < 3) {
+	while(j < 4) {
 		j++;
 		// print the macro version
 		fprintf(fo, macro_footer);
@@ -137,10 +137,10 @@ int main(int argc, char **argv)
 
 	fprintf(fo, "#define %s_macro_pic_count %d\n", argv[3], j);
 
-  fprintf(fo, ifdef_guard_footer);
+	fprintf(fo, ifdef_guard_footer);
 
-  fclose(fi);
-  fclose(fo);
-  fprintf(stdout, "Header %s generated.\n", argv[3]);
-  return 0;
+	fclose(fi);
+	fclose(fo);
+	fprintf(stdout, "Header %s generated.\n", argv[3]);
+	return 0;
 }
