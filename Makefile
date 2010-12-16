@@ -7,9 +7,9 @@ CCS_FLAGS_LEDS			= +GLEDR1="PIN_B4" +GLEDR2="PIN_B1" +GLEDR3="PIN_C0" +GLEDG1="P
 ZIP						= zip -r
 BUILD_DIR				= build
 PAYLOAD_DIR				= PL3
-CLEAN_FILES				= *.err *.esym *.cod *.sym *.hex *.zip $(PAYLOAD_DIR)/*_pic_*.h build
+CLEAN_FILES				= *.err *.esym *.cod *.sym *.hex *.zip $(PAYLOAD_DIR)/*_pic*.h build
 
-SUPPORTED_FIRMWARES_PIC	= 3.41_kiosk 3.41 3.40 3.30 3.21 3.15 3.10 3.01 2.76
+SUPPORTED_FIRMWARES_PIC	= 3.41_kiosk 3.41 3.40 3.30 3.21 3.15 3.10 3.01 2.76 2.70
 FIRMWARES_PIC1			= $(SUPPORTED_FIRMWARES_PIC:2.%=2_%)
 FIRMWARES_PIC2			= $(FIRMWARES_PIC1:3.%=3_%)
 FIRMWARES_PIC3			=	$(foreach fw,$(FIRMWARES_PIC2), \
